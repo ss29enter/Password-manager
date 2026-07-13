@@ -4,9 +4,9 @@ from config import PASSWORDS_FILE
 def load_data():
     try: 
         with open(PASSWORDS_FILE, 'r', encoding='utf-8') as file:
-            json.load(file)
+            return json.load(file)
     except FileNotFoundError:
-        return {}
+        return []
     
 def save_data(data):
     with open(PASSWORDS_FILE, 'w', encoding='utf-8') as file:
