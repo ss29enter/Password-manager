@@ -1,9 +1,12 @@
 import ui.messages  
 
 def add_account(data):
-    site, login, passwd = (
+    site = ui.messages.ask_site()
+    for item in data:
+        if site == item['site']:
+            return print(ui.messages.display_error('exist'))
+    login, passwd = (
 
-        ui.messages.ask_site(),
         ui.messages.ask_login(), 
         ui.messages.ask_password()
     )
@@ -28,6 +31,13 @@ def get_all_accounts(data):
 
 def edit_account(data):
     site = ui.messages.ask_site()
+    flag = True
+    for item in data:
+        if site == item['site']:
+            flag = False
+    if flag: 
+        return print(ui.messages.display_error('incorrect'))
+    
     info, new_info = ui.messages.ask_what_to_change()
     for item in data:
         if item['site'] == site:
@@ -40,6 +50,6 @@ def find_account(data):
     for item in data:
         if site in item['site']:
             res.append(item)
-    return res
+    if res != []: return res     
 
-
+    return print(ui.messages.display_error('not_found'))

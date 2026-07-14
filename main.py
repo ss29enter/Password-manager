@@ -37,6 +37,7 @@ def main():
 
         if user == '5':
             delete_account(data)
+            save_data(data)
    
         if user in ['x','exit']:
             break   
