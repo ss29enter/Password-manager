@@ -17,8 +17,10 @@ def add_account(data):
 def delete_account(data):
     site = ui.messages.ask_site()
     for account in data:
-        if account['site'] == site:
-            data.remove(account)
+        if site in account['site']:
+            if ui.messages.ask_to_delete(account['site']):
+                data.remove(account) 
+            else: pass
 
 def get_all_accounts(data):
     data.sort(key=lambda x: x['site'])
@@ -33,9 +35,11 @@ def edit_account(data):
             break
 
 def find_account(data):
+    res = []
     site = ui.messages.ask_site()
     for item in data:
-        if item['site'] == site:
-            return item
+        if site in item['site']:
+            res.append(item)
+    return res
 
 
