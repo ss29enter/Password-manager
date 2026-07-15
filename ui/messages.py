@@ -1,4 +1,5 @@
 from config import WIDHT
+from getpass import getpass
 
 
 def ask_site():
@@ -77,8 +78,17 @@ def display_error(opt):
     }
     return errors[opt]
 
+def display_allow(opt):
+    allows = {
+
+        'decrypt': 'File is successfully decrypted!',
+        'encrypt': 'File is successfully encrypted!'
+    }
+    return allows[opt]
+
 def set_password():
-    return input('Set the master-key: ')
+    return getpass('> Set the master-key: ')
 
 def ask_password():
-    return input('Enter password: ')
+    return getpass('> Enter password: ')
+

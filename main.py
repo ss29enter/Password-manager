@@ -1,53 +1,56 @@
-from storage.json_storage import load_data, save_data, load_master
-from manager.password_manager import (
-    add_account,
-    delete_account,
-    get_all_accounts,
-    find_account,
-    edit_account
+from storage.json_storage import (
+    load_data, 
+    save_data, 
+    load_master
 )
+import utils.encryption as security
+import manager.password_manager as manager
 import ui.messages, ui.menu
-import utils.encryption 
+
 
 def main():
     if not load_master():
-        utils.encryption.set_master()
+        save_data(load_data())
+        security.set_master()
+        return
     else: 
-        if not utils.encryption.check_password():
-            return print(ui.messages.display_error('wrong_pas'))
-
+        key = ui.messages.ask_password()
+        if not security.check_password(key):
+            return
+        
     data = load_data()
     ui.menu.display_menu()
     while True:
         user = ui.messages.ask_action().lower()
         ui.menu.clear_display()
         ui.menu.display_menu()
+
         if user == '1':
-            add_account(data)
+            manager.add_account(data)
             save_data(data)
 
         if user == '2':
-            edit_account(data)
+            manager.edit_account(data)
             save_data(data)
 
         if user == '3':
-            ui.messages.show_account(find_account(data))
+            ui.messages.show_account(manager.find_account(data))
 
         if user == '4':
-            ui.messages.display_accounts(get_all_accounts(data))
+            ui.messages.display_accounts(manager.get_all_accounts(data))
 
         if user == '5':
-            delete_account(data)
+            manager.delete_account(data)
             save_data(data)
    
         if user == 'r':
-            if not utils.encryption.check_password():
-                print(ui.messages.display_error('wrong_pas'))
-            else: 
-                utils.encryption.set_master()
+            if security.check_hash(ui.messages.ask_password()):
+                security.set_master()
+                return
 
         if user in ['x','exit']:
             ui.menu.clear_display()
+            security.encryption(key)
             break   
 
 
