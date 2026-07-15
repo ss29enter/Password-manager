@@ -24,9 +24,9 @@ def ask_password():
 
 def display_accounts(data):
     if data == []:
-        return print('\n', display_error('no_accounts'))
+        return print('\n' + display_error('no_accounts'))
     print(f'{"ACCOUNTS":^{WIDHT}}\n')
-    print(f'> {len(data)} accounts found.')
+    print(f'> {len(data)} accounts found:')
     for item in data:
         site, _, _ = item.values()
         print(f'- {site}')
@@ -68,10 +68,17 @@ def ask_action():
 def display_error(opt):
     errors = {
 
-        'exist': '> Account is already exist.',
-        'empty': '> Empty line.',
-        'no_accounts': '> No added accounts yet.',
-        'incorrect': '> No account.',
-        'not_found': '> No coincidences.'
+        'exist': '> Account is already exist',
+        'empty': '> Empty line',
+        'no_accounts': '> No added accounts yet',
+        'incorrect': '> No account',
+        'not_found': '> No coincidences',
+        'wrong_pas': '> Wrong password'
     }
     return errors[opt]
+
+def set_password():
+    return input('Set the master-key: ')
+
+def ask_password():
+    return input('Enter password: ')

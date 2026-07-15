@@ -1,4 +1,4 @@
-from storage.json_storage import load_data, save_data
+from storage.json_storage import load_data, save_data, load_master
 from manager.password_manager import (
     add_account,
     delete_account,
@@ -7,9 +7,15 @@ from manager.password_manager import (
     edit_account
 )
 import ui.messages, ui.menu
-
+import utils.encryption 
 
 def main():
+    if not load_master():
+        utils.encryption.set_master()
+    else: 
+        if not utils.encryption.check_password():
+            return print(ui.messages.display_error('wrong_pas'))
+
     data = load_data()
     ui.menu.display_menu()
     while True:
@@ -34,9 +40,16 @@ def main():
             delete_account(data)
             save_data(data)
    
+        if user == 'r':
+            if not utils.encryption.check_password():
+                print(ui.messages.display_error('wrong_pas'))
+            else: 
+                utils.encryption.set_master()
+
         if user in ['x','exit']:
             ui.menu.clear_display()
             break   
+
 
 if __name__ == '__main__':
     main()

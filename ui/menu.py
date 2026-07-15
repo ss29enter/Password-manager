@@ -14,10 +14,11 @@ def print_actions():
     print('3. Find account')
     print('4. Show all accounts')
     print('5. Delete account')
-    print('X. EXIT')
-
-def print_sep():
     print()
+    print('[X] Exit')
+    print('[R] Reset the master-key')
+    
+def print_sep():
     print('='*WIDHT)
 
 def clear_display():
