@@ -1,21 +1,22 @@
-from ui.menu import print_sep
+from config import WIDHT
+
 
 def ask_site():
-    user = input('Site:\n> ')
+    user = input('Site: ')
     if user == '':
         print(display_error('empty'))
         return ask_site()
     return user
 
 def ask_login():
-    user = input('Login:\n> ')
+    user = input('Login: ')
     if user == '':
         print(display_error('empty'))
         return ask_login()
     return user
 
 def ask_password():
-    user = input('Password:\n> ')
+    user = input('Password: ')
     if user == '':
         print(display_error('empty'))
         return ask_password()
@@ -23,13 +24,17 @@ def ask_password():
 
 def display_accounts(data):
     if data == []:
-        return print(display_error('no_accounts'))
-    for id, account in enumerate(data,start=1):
-        site, _, _ = account.values()
-        print(f'{id}. {site}')
+        return print('\n', display_error('no_accounts'))
+    print(f'{"ACCOUNTS":^{WIDHT}}\n')
+    print(f'> {len(data)} accounts found.')
+    for item in data:
+        site, _, _ = item.values()
+        print(f'- {site}')
+    print()
 
 def ask_what_to_change():
-    user = input('Edit login or password? [L/P] \n> ').lower()
+    user = input('> Edit login or password? [L/P] ').lower()
+    print()
     while True:
         if user == 'l':
             return 'login', input('New login: ')
@@ -43,14 +48,18 @@ def ask_what_to_change():
             return ask_what_to_change()
 
 def show_account(data):
+    print()
     if data:
         for item in data:
             print(f'> {item["site"]}')
             print(f'{"Login: ":<15}{item["login"]}')
             print(f'{"Password: ":<15}{item["password"]}\n')
-
+    else:
+        return print(display_error('not_found'))
+    
 def ask_to_delete(site):
-    user = input(f'Delete {site} account? [Y/N] ').lower()
+    print()
+    user = input(f'> Delete {site} account? [Y/N] ').lower()
     return 0 if user in ['n','no'] else 1
 
 def ask_action():
@@ -59,10 +68,10 @@ def ask_action():
 def display_error(opt):
     errors = {
 
-        'exist': 'Account is already exist.',
-        'empty': 'Empty line.',
-        'no_accounts': 'No added accounts yet.',
-        'incorrect': 'Incorrect output.',
-        'not_found': 'No coincidences.'
+        'exist': '> Account is already exist.',
+        'empty': '> Empty line.',
+        'no_accounts': '> No added accounts yet.',
+        'incorrect': '> No account.',
+        'not_found': '> No coincidences.'
     }
     return errors[opt]

@@ -1,10 +1,11 @@
 import ui.messages  
 
+
 def add_account(data):
     site = ui.messages.ask_site()
     for item in data:
         if site == item['site']:
-            return print(ui.messages.display_error('exist'))
+            return print('\n', ui.messages.display_error('exist'))
     login, passwd = (
 
         ui.messages.ask_login(), 
@@ -19,11 +20,15 @@ def add_account(data):
 
 def delete_account(data):
     site = ui.messages.ask_site()
-    for account in data:
-        if site in account['site']:
-            if ui.messages.ask_to_delete(account['site']):
-                data.remove(account) 
-            else: pass
+    res = []
+    for item in data:
+        if site in item['site']:
+            if ui.messages.ask_to_delete(item['site']):
+                res.append(item)
+    if res == []: 
+        return print('\n', ui.messages.display_error('incorrect'))
+    
+    for el in res: data.remove(el)
 
 def get_all_accounts(data):
     data.sort(key=lambda x: x['site'])
@@ -36,7 +41,7 @@ def edit_account(data):
         if site == item['site']:
             flag = False
     if flag: 
-        return print(ui.messages.display_error('incorrect'))
+        return print('\n', ui.messages.display_error('incorrect'))
     
     info, new_info = ui.messages.ask_what_to_change()
     for item in data:
@@ -50,6 +55,4 @@ def find_account(data):
     for item in data:
         if site in item['site']:
             res.append(item)
-    if res != []: return res     
-
-    return print(ui.messages.display_error('not_found'))
+    return res   

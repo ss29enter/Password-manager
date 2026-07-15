@@ -6,21 +6,16 @@ from manager.password_manager import (
     find_account,
     edit_account
 )
-from ui.messages import (
-    display_accounts, 
-    show_account,
-    ask_action
-)
-from ui.menu import display_menu, clear_display
+import ui.messages, ui.menu
 
 
 def main():
     data = load_data()
-    display_menu()
+    ui.menu.display_menu()
     while True:
-        user = ask_action().lower()
-        clear_display()
-        display_menu()
+        user = ui.messages.ask_action().lower()
+        ui.menu.clear_display()
+        ui.menu.display_menu()
         if user == '1':
             add_account(data)
             save_data(data)
@@ -30,16 +25,17 @@ def main():
             save_data(data)
 
         if user == '3':
-            show_account(find_account(data))
+            ui.messages.show_account(find_account(data))
 
         if user == '4':
-            display_accounts(get_all_accounts(data))
+            ui.messages.display_accounts(get_all_accounts(data))
 
         if user == '5':
             delete_account(data)
             save_data(data)
    
         if user in ['x','exit']:
+            ui.menu.clear_display()
             break   
 
 if __name__ == '__main__':
