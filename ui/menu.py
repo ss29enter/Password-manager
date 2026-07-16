@@ -25,6 +25,7 @@ def clear_display():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def display_menu():
+    clear_display()
     print_title()
     print_actions()
     print_sep()

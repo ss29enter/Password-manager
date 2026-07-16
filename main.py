@@ -14,15 +14,13 @@ def main():
         security.set_master()
         return
     else: 
-        key = ui.messages.ask_password()
+        key = ui.messages.ask_master()
         if not security.check_password(key):
             return
-        
-    data = load_data()
     ui.menu.display_menu()
+    data = load_data()
     while True:
         user = ui.messages.ask_action().lower()
-        ui.menu.clear_display()
         ui.menu.display_menu()
 
         if user == '1':
@@ -44,9 +42,12 @@ def main():
             save_data(data)
    
         if user == 'r':
-            if security.check_hash(ui.messages.ask_password()):
+            if security.check_hash(ui.messages.ask_master()):
+                ui.menu.display_menu()
                 security.set_master()
                 return
+            ui.menu.display_menu()
+            print(ui.messages.display_error('wrong_pas'))
 
         if user in ['x','exit']:
             ui.menu.clear_display()

@@ -5,7 +5,7 @@ def add_account(data):
     site = ui.messages.ask_site()
     for item in data:
         if site == item['site']:
-            return print('\n', ui.messages.display_error('exist'))
+            return print(ui.messages.display_error('exist'))
     login, passwd = (
 
         ui.messages.ask_login(), 
@@ -26,7 +26,7 @@ def delete_account(data):
             if ui.messages.ask_to_delete(item['site']):
                 res.append(item)
     if res == []: 
-        return print('\n', ui.messages.display_error('incorrect'))
+        return print(ui.messages.display_error('incorrect'))
     
     for el in res: data.remove(el)
 
@@ -41,7 +41,7 @@ def edit_account(data):
         if site == item['site']:
             flag = False
     if flag: 
-        return print('\n', ui.messages.display_error('incorrect'))
+        return print(ui.messages.display_error('incorrect'))
     
     info, new_info = ui.messages.ask_what_to_change()
     for item in data:
