@@ -1,5 +1,5 @@
 import cryptography
-import hashlib
+import bcrypt
 from config import PASSWORDS_FILE
 from storage.json_storage import (
     save_master,
@@ -15,9 +15,8 @@ import ui.messages
 
 
 def hash_password(password):
-    h = hashlib.sha256()
-    h.update(password.encode())
-    return h.hexdigest()
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    return hashed.decode()
 
 def set_master():
     user = ui.messages.set_password()
@@ -71,8 +70,7 @@ def check_password(user):
 
 def check_hash(user):
     master = load_master()['master-key']
-    return hash_password(user) == master
-
+    return bcrypt.checkpw(user.encode(), master.encode())
 
 
 

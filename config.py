@@ -7,4 +7,4 @@ PASSWORDS_FILE = DATA_DIR / 'passwords.json'
 MASTER_PASSWORD_FILE = DATA_DIR / 'master_password.json'
 SALT_FILE = DATA_DIR / 'salt.bin'
 
-WIDHT = 45
+WIDHT = 60
