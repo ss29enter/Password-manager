@@ -1,8 +1,7 @@
 import utils.encryption
-from config import WIDHT
 from getpass import getpass
 from utils.password_generator import generate_password
-from ui.menu import display_menu
+from ui.menu import display_menu, display_name
 
 
 def ask_site():
@@ -36,8 +35,7 @@ def ask_password():
 def display_accounts(data):
     if data == []:
         return print(display_error('no_accounts'))
-    title = f'ACCOUNTS ({len(data)})'
-    print(f'{title:^{WIDHT}}\n')
+    print(display_name('acc').format(len(data)))
     for item in data:
         site, _, _ = item.values()
         print(f'- {site}')
@@ -53,6 +51,7 @@ def ask_what_to_change():
             return 'login', login
         elif user == 'p':
             if input('Generate a password? [Y/N] ').lower() in ['no','n']:
+                display_menu()
                 passwd = getpass('New password: ')
                 display_menu()
                 if passwd == '': return print(display_error('empty'))
@@ -67,7 +66,7 @@ def ask_what_to_change():
             return ask_what_to_change()
 
 def show_account(data):
-    print(f'{"RESULT":^{WIDHT}}\n')
+    print(display_name('res').format(len(data)))
     if data:
         for item in data:
             print(f'> {item["site"]}')
@@ -79,7 +78,7 @@ def show_account(data):
     if not ask in ['n','no']:
         if utils.encryption.check_hash(ask_master()):
             display_menu()
-            print(f'{"RESULT":^{WIDHT}}\n')
+            print(display_name('res').format(len(data)))
             for item in data:
                 print(f'> {item["site"]}')
                 print(f'{"Login: ":<15}{item["login"]}')
@@ -104,6 +103,7 @@ def display_error(opt):
         'empty': '> Empty line',
         'no_accounts': '> No added accounts yet',
         'incorrect': '> No account',
+        'deletion': '> There are no accounts to delete',
         'not_found': '> No coincidences',
         'wrong_pas': '> Wrong password'
     }
@@ -113,7 +113,10 @@ def display_allow(opt):
     allows = {
 
         'decrypt': '> File is successfully decrypted! [enter]',
-        'encrypt': '> File is successfully encrypted! [run prog]'
+        'encrypt': '> File is successfully encrypted!',
+        'deletion': '> {} accounts is deleted',
+        'editing': '> {} ({}) is edited',
+        'add': '> {} account is added'
     }
     return allows[opt]
 
@@ -126,7 +129,7 @@ def ask_master():
 def ask_options():
     display_menu()
     length = input('Length: ')
-    if length == '': length = 8
+    if length == '' or not length.isdigit() : length = 8
     upper = input('Include uppercase? [Y/N] ').lower()
     lower = input('Include lowercase? [Y/N] ').lower()
     dig = input('Include digits? [Y/N] ').lower()

@@ -17,7 +17,7 @@ def main():
         key = ui.messages.ask_master()
         if not security.check_password(key):
             return
-    ui.menu.display_menu()
+        
     data = load_data()
     while True:
         user = ui.messages.ask_action().lower()
@@ -52,6 +52,7 @@ def main():
         if user in ['x','exit']:
             ui.menu.clear_display()
             security.encryption(key)
+            print(ui.messages.display_allow('encrypt'))
             break   
 
 

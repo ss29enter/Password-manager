@@ -2,6 +2,13 @@ from config import WIDHT
 import os
 
 
+def display_name(opt):
+    names = {
+        'res': f'{"RESULT ({})":^{WIDHT}}\n',
+        'acc': f'{"ACCOUNTS ({})":^{WIDHT}}\n'
+    }
+    return names[opt]
+
 def print_title():
     clear_display()
     print()

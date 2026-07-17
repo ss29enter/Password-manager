@@ -24,7 +24,7 @@ def set_master():
     salt = generate_salt()
     save_master({'master-key': master})  
     encryption(user)
-    print(ui.messages.display_allow('encrypt'))
+    print(ui.messages.display_allow('encrypt'),'[run program]')
     
 def generate_salt():
     salt = secrets.token_bytes(16)
